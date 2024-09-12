@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: course-service-deployment
+spec:
+  replicas: 2
+  selector:  # Fix: changed `selectors` to `selector`
+    matchLabels:  # Fix: `matchlabels` to `matchLabels`
+      app: course-service
+  template:
+    metadata:
+      labels:
+        app: course-service
+    spec:
+      containers:
+        - name: course-service  # Fix: containers should be a list, added container name
+          image: ujesh2010/ingress:2.0
+          ports:
+            - containerPort: 8081  # Fix: `containerport` to `containerPort`
+
+---
+apiVersion: v1  # Fix: `V1` to `v1`
+kind: Service
+metadata:
+  name: course-service
+spec:
+  selector:
+    app: course-service
+  ports:
+    - protocol: TCP  # Fix: space before `protocol`
+      port: 80
+      targetPort: 8081
